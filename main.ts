@@ -1,7 +1,7 @@
 import { App, Editor, Hotkey, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
 import a from 'src/command';
 import { replace2 } from 'src/Commands/replace1Cmd';
-import { replaceBlockCode, replaceComment, replaceKBD, replaceLatexCode, replaceRowCode, replaceRowLatexCode } from 'src/Commands/ReplaceCommand';
+import { replaceBlockCode, replaceComment, replaceKBD, replaceKBDs, replaceLatexCode, replaceRowCode, replaceRowLatexCode } from 'src/Commands/ReplaceCommand';
 import { addH1, addH2, addH3, addH4, addH5, addH6 } from 'src/Commands/TitleCommand';
 import { Methods } from 'src/Modals/batchEditModal';
 import { DEFAULT_SETTINGS, Settings } from 'src/setting';
@@ -76,6 +76,7 @@ export default class MyPlugin extends Plugin {
 			editorCallback: a,
 		})
 		this.addCommand(replaceKBD())
+		this.addCommand(replaceKBDs())
 		this.addCommand(replaceRowCode())
 		this.addCommand(replaceComment())
 		this.addCommand(replaceBlockCode())

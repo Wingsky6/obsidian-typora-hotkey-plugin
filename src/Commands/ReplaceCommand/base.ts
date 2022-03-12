@@ -9,6 +9,13 @@ import { Editor, EditorPosition, MarkdownView } from "obsidian";
 4. 序号，有序和无序序号
 5. 数学公式
  */
+
+
+/**
+ * regStart: 起点
+ * regEnd: 终点
+ * @public
+ */
 export const replaceBase = (regStart: string, regEnd: string, editor: Editor) => {
 
     let content = editor.getSelection();

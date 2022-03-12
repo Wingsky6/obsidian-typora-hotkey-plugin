@@ -148,7 +148,66 @@ var onReplaceUnSelectStr = (editor, regStart, regEnd) => {
   editor.setCursor(newPosition, newPosition.ch);
 };
 
+// src/Commands/ReplaceCommand/replaceByDelimiter.ts
+var replaceBaseByDelimiter = (regStart, regEnd, delimiter, editor) => {
+  let content = editor.getSelection();
+  if (content != "") {
+    let res = handleWithRepeatStrs(content, regStart, regEnd, delimiter);
+    editor.replaceSelection(res);
+    return;
+  } else {
+    onReplaceUnSelectStr2(editor, regStart, regEnd, delimiter);
+  }
+};
+var handleWithRepeatStrs = (str, regStart, regEnd, delimiter) => {
+  let words = str.split(delimiter);
+  let res = "";
+  words.map((item) => {
+    res += delimiter + handleWithRepeatStr2(item, regStart, regEnd);
+  });
+  return res;
+};
+var handleWithRepeatStr2 = (str, regStart, regEnd) => {
+  const startStr = str.substring(0, regStart.length);
+  if (startStr.includes(regStart, 0) && str.includes(regEnd, str.length - regEnd.length)) {
+    str = str.substring(regStart.length, str.length - regEnd.length);
+  } else {
+    str = regStart + str + regEnd;
+  }
+  return str;
+};
+var onReplaceUnSelectStr2 = (editor, regStart, regEnd, delimiter) => {
+  let position = editor.getCursor();
+  let content = editor.getLine(position.line);
+  let start = position.ch, end = start;
+  do {
+    start--;
+  } while (content[start] != " " && content[start] != void 0);
+  do {
+    end++;
+  } while (content[end] != " " && content[end] != void 0);
+  let replaceStr = handleWithRepeatStrs(content.substring(start + 1, end), regStart, regEnd, delimiter);
+  let replaceContent = content.substring(0, start + 1) + replaceStr + content.substring(end);
+  editor.setLine(position.line, replaceContent);
+};
+
 // src/Commands/ReplaceCommand/index.ts
+var replaceKBDs = () => {
+  const title = "\u6839\u636E+\u53F7\u6DFB\u52A0\u6216\u53D6\u6D88\u591A\u4E2A\u952E\u76D8\u683C\u5F0F";
+  const command = (editor, view) => {
+    replaceBaseByDelimiter("<kbd>", "</kbd>", "+", editor);
+  };
+  const hotkey = {
+    modifiers: ["Ctrl", "Alt"],
+    key: "T"
+  };
+  return {
+    id: title,
+    name: title,
+    editorCallback: command,
+    hotkeys: [hotkey]
+  };
+};
 var replaceKBD = () => {
   const title = "\u6DFB\u52A0\u6216\u53D6\u6D88\u952E\u76D8\u683C\u5F0F";
   const command = (editor, view) => {
@@ -346,10 +405,10 @@ var addH6 = () => {
 var addTitle = (reg2, editor) => {
   let position = editor.getCursor();
   let content = editor.getLine(position.line);
-  content = handleWithRepeatStr2(content, reg2);
+  content = handleWithRepeatStr3(content, reg2);
   editor.setLine(position.line, content);
 };
-var handleWithRepeatStr2 = (str, regStart) => {
+var handleWithRepeatStr3 = (str, regStart) => {
   const modifiers = ["# ", "## ", "### ", "#### ", "##### ", "###### "];
   for (let index = 0; index < modifiers.length; index++) {
     const element = modifiers[index];
@@ -465,6 +524,7 @@ var MyPlugin = class extends import_obsidian3.Plugin {
         editorCallback: command_default
       });
       this.addCommand(replaceKBD());
+      this.addCommand(replaceKBDs());
       this.addCommand(replaceRowCode());
       this.addCommand(replaceComment());
       this.addCommand(replaceBlockCode());

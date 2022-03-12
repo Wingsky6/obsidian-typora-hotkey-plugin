@@ -1,5 +1,6 @@
 import { Editor, Hotkey, MarkdownView, Command } from "obsidian";
 import { replaceBase } from "./base";
+import { replaceBaseByDelimiter } from "./replaceByDelimiter";
 
 /*
 
@@ -23,6 +24,22 @@ export const replaceExample = (): Command => {
     }
 }
 
+export const replaceKBDs = (): Command => {
+    const title = '根据+号添加或取消多个键盘格式';
+    const command = (editor: Editor, view: MarkdownView) => {
+        replaceBaseByDelimiter('<kbd>', '</kbd>', '+', editor);
+    }
+    const hotkey: Hotkey = {
+        modifiers: ["Ctrl", "Alt"],
+        key: "T"
+    }
+    return {
+        id: title,
+        name: title,
+        editorCallback: command,
+        hotkeys: [hotkey]
+    }
+}
 export const replaceKBD = (): Command => {
     const title = '添加或取消键盘格式';
     const command = (editor: Editor, view: MarkdownView) => {
