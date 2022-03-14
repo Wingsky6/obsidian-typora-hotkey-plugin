@@ -27,6 +27,8 @@ export const replaceBase = (regStart: string, regEnd: string, editor: Editor) =>
         editor.replaceSelection(content);
         return;
     } else {
+        // 判断是否是符号
+
         // 未选择 需要切换光标
         onReplaceUnSelectStr(editor, regStart, regEnd);
     }
@@ -57,6 +59,14 @@ const handleWithRepeatStr = (str: string, regStart: string, regEnd: string): res
         };
     }
 }
+
+const onReplaceSimpleStr = (editor: Editor, regStart: string, regEnd: string): void => {
+    let position = editor.getCursor();
+    let line = editor.getLine(position.line);
+    const content = line.substring(0, position.ch + 1) + regStart + regEnd + line.substring(position.ch + 1);
+    editor.setLine(position.ch, content);
+}
+
 /*
 1. 字符在光标前面（可行）
 2. 字符在光标中间（可行）
@@ -68,15 +78,23 @@ const onReplaceUnSelectStr = (editor: Editor, regStart: string, regEnd: string):
     let content = editor.getLine(position.line);
     // 寻找空格
     let start = position.ch, end = start;
+    const c = content[position.ch]
+    const c1 = content[position.ch - 1]
     do {
         start--;
     }
-    while (content[start] != ' ' && content[start] != undefined)
+    while (content[start] != ' ' &&
+    content[start] != undefined &&
+    checkAll(c) == checkAll(content[start]) &&
+        // 如果左边界为特殊字符，start初始化
+        checkAll(c1) != 0)
     do {
         end++;
     }
     // content[end] != '\n' && 
-    while (content[end] != ' ' && content[end] != undefined)
+    while (content[end] != ' ' && content[end] != undefined && checkAll(c) == checkAll(content[end]) && checkAll(c) != 0)
+
+    console.log(c, "c", content[end - 1], content[start + 1])
     // let str = content.substring(start, end);
 
     let replaceStr = handleWithRepeatStr(content.substring(start + 1, end), regStart, regEnd);
@@ -96,6 +114,50 @@ const onReplaceUnSelectStr = (editor: Editor, regStart: string, regEnd: string):
     // 
 
 
+}
+
+
+const checkAll = (str: string): number => {
+    if (checkCh(str)) {
+        return 2;
+    }
+    if (checkEN(str)) {
+        return 1;
+    }
+    if (checkNum(str)) {
+        return 1;
+    }
+    if (checkSpecialChar(str)) {
+        return 0;
+    }
+    return 0;
+}
+
+// 判断是否是中文 中文为真
+const checkCh = (str: string): boolean => {
+    var pattern = new RegExp("[\u4E00-\u9FA5]+");
+    return pattern.test(str);
+}
+// 判断是否是英文
+const checkEN = (str: string): boolean => {
+    var pattern = new RegExp("[A-Za-z]+")
+    return pattern.test(str);
+}
+
+const checkNum = (str: string): boolean => {
+    var pattern = new RegExp("[0-9]+")
+    return pattern.test(str);
+}
+// 判断是否是特殊字符
+const checkSpecialChar = (str: string): boolean => {
+    var specialChars = "~·`!！@#$￥%^…&*()（）—-_=+[]{}【】、|\\;:；：'\"“‘,./<>《》?？，。";
+    var len = specialChars.length;
+    for (var i = 0; i < len; i++) {
+        if (str.indexOf(specialChars.substring(i, i + 1)) != -1) {
+            return true;
+        }
+    }
+    return false;
 }
 
 

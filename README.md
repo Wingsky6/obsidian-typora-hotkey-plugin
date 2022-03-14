@@ -1,4 +1,4 @@
-# Obsidian-typora-hotkey-plugin
+# [Obsidian-typora-hotkey-plugin](https://github.com/Wingsky6/obsidian-typora-hotkey-plugin)
 
 obsidian 添加typora快捷键
 

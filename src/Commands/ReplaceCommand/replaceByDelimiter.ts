@@ -31,7 +31,7 @@ export const replaceBaseByDelimiter = (regStart: string, regEnd: string, delimit
  * 根据分隔符批量分割字符串
  * @public
  */
-const handleWithRepeatStrs = (str: string, regStart: string, regEnd: string, delimiter: string): string => {
+export const handleWithRepeatStrs = (str: string, regStart: string, regEnd: string, delimiter: string): string => {
     let words = str.split(delimiter);
     let res = "";
     let i = 0;

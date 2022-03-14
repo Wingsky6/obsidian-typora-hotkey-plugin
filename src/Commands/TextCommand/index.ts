@@ -1,9 +1,10 @@
 import { Editor, Hotkey, MarkdownView, Command } from "obsidian";
 import { replaceBase } from "../ReplaceCommand/base";
+import { handleWithRepeatStrs } from "../ReplaceCommand/replaceByDelimiter";
 
 
 // 添加删除线
-export const AddDeleteEffet = (): Command => {
+export const addDeleteEffet = (): Command => {
     const title = '删除线';
     const command = (editor: Editor, view: MarkdownView) => {
         replaceBase('~~', '~~', editor);
@@ -57,14 +58,18 @@ export const addQuoteEffect = (): Command => {
         hotkeys: [hotkey]
     }
 }
-
-
-
 const addQuote = (reg: string, editor: Editor,) => {
-    let position = editor.getCursor();
-    let content = editor.getLine(position.line);
-    content = handleWithRepeatStr(content, reg);
-    editor.setLine(position.line, content);
+    const content = editor.getSelection();
+    if (content != '') {
+        const res = handleWithRepeatStrs(content, reg, '', '\n');
+        editor.replaceSelection(res);
+    } else {
+        let position = editor.getCursor();
+        let line = editor.getLine(position.line);
+        line = handleWithRepeatStr(line, reg);
+        editor.setLine(position.line, line);
+    }
+
 }
 // 字符中顶部否包含对应的reg片段,有则替换
 const handleWithRepeatStr = (str: string, regStart: string): string => {
