@@ -3,8 +3,8 @@
 	"name": "Typora快捷键",
 	"version": "1.0.1",
 	"minAppVersion": "0.12.0",
-	"description": "This is a sample plugin for Obsidian. This plugin demonstrates some of the capabilities of the Obsidian API.",
+	"description": "在obsidian上使用typora快捷键",
 	"author": "Wingsky6",
-	"authorUrl": "https://obsidian.md",
+	"authorUrl": "https://github.com/Wingsky6/obsidian-typora-hotkey-plugin",
 	"isDesktopOnly": false
 }

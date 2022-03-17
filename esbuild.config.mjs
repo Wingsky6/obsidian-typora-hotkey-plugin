@@ -47,7 +47,7 @@ esbuild.build({
 	logLevel: "info",
 	sourcemap: prod ? false : 'inline',
 	treeShaking: true,
-	outfile: 'C:\\Users\\3\\OneDrive\\2-My_All_Life\\.obsidian\\plugins\\aobsidian sample test\\main.js'
+	outfile: '.\\main,js'
 }).catch(() => process.exit(1));
 
 // 'C:\\Users\\3\\OneDrive\\2-My_All_Life\\.obsidian\\plugins\\aobsidian sample test\\main.js'
