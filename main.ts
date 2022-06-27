@@ -1,5 +1,6 @@
 import { App, Editor, Hotkey, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
 import a from 'src/command';
+import { orderList, unOrderList } from 'src/Commands/ListCommand';
 import { replace2 } from 'src/Commands/replace1Cmd';
 import { replaceBlockCode, replaceComment, replaceKBD, replaceKBDs, replaceLatexCode, replaceRowCode, replaceRowLatexCode } from 'src/Commands/ReplaceCommand';
 import { addDeleteEffet, addQuoteEffect, addTiltEffect } from 'src/Commands/TextCommand';
@@ -44,6 +45,9 @@ export default class MyPlugin extends Plugin {
 		this.addCommand(addH4())
 		this.addCommand(addH5())
 		this.addCommand(addH6())
+
+		this.addCommand(orderList())
+		this.addCommand(unOrderList())
 	}
 
 	onunload() {
