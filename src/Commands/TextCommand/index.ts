@@ -1,8 +1,13 @@
 import { Editor, Hotkey, MarkdownView, Command } from "obsidian";
-import { replaceBase } from "../ReplaceCommand/base";
+import { replaceBase } from "../Common/replaceBase";
 import { handleWithRepeatStrs } from "../ReplaceCommand/replaceByDelimiter";
 
+/*  
+1. 删除线 
+2. 倾斜线
+3. 引用效果
 
+ */
 // 添加删除线
 export const addDeleteEffet = (): Command => {
     const title = '删除线';

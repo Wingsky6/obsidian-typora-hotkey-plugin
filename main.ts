@@ -1,5 +1,6 @@
 import { App, Editor, Hotkey, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
 import a from 'src/command';
+import { ConvertMdImgToObImg, ConvertObImgToMdImg } from 'src/Commands/ImageCommand';
 import { orderList, unOrderList } from 'src/Commands/ListCommand';
 import { replace2 } from 'src/Commands/replace1Cmd';
 import { replaceBlockCode, replaceComment, replaceKBD, replaceKBDs, replaceLatexCode, replaceRowCode, replaceRowLatexCode } from 'src/Commands/ReplaceCommand';
@@ -48,6 +49,10 @@ export default class MyPlugin extends Plugin {
 
 		this.addCommand(orderList())
 		this.addCommand(unOrderList())
+		this.addCommand(ConvertObImgToMdImg())
+		this.addCommand(ConvertMdImgToObImg())
+		this.addStatusBarItem();
+		new Notice("Journey Re-Loaded!");
 	}
 
 	onunload() {

@@ -1,3 +1,6 @@
+import { App } from "obsidian";
+import { unescape } from "querystring";
+
 export function abstractFn(res: string) {
     if (!res) {
         return '';
@@ -23,7 +26,7 @@ export function abstractFn(res: string) {
 }
 
 export const G_bold = /(\*\*|__)(.*?)(\*\*|__)/g
-export const G_image = /\!\[[\s\S]*?\]\([\s\S]*?\)/g
+export const G_image = /\!\[([\s\S]*?)\]\(([\s\S]*?)\)/g
 export const G_link = /<\/?.+?\/?>/g
 export const G_rowCode = /`{1,2}[^`](.*?)`{1,2}/g
 export const G_blockCode = /```([\s\S]*?)```[\s]*/g
@@ -39,7 +42,9 @@ export const unOrderList = /^[\\s]*[-\\*\\+] +(.*)/
 export const G_deleteLine = /\\~\\~(.*?)\\~\\~/g
 export const G_quote = /\n(&gt;|\\>)(.*)/g
 
-
+export const G_ob_image = /\!\[\[(.*?)\]\]/g
+// ob 
+export const Str_ob_image = "\!\[\[(.*?)\]\]"
 
 /* 
 

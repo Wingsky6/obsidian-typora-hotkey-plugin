@@ -1,5 +1,5 @@
 import { Editor, Hotkey, MarkdownView, Command } from "obsidian";
-import { replaceBase } from "./base";
+import { replaceBase } from "../Common/replaceBase";
 import { replaceBaseByDelimiter } from "./replaceByDelimiter";
 
 /*

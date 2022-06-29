@@ -1,11 +1,12 @@
 import { Command, Editor, Hotkey, MarkdownView } from "obsidian";
-import { res } from "../ReplaceCommand/base";
+import { replaceBase } from "../Common/replaceBase";
 
 
 
 /*
 
  typora 快捷键   
+ h1~h6
 
  */
 export const addH1 = (): Command => {
